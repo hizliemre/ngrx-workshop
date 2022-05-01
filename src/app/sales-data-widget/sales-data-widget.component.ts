@@ -34,21 +34,25 @@ export class SalesDataWidgetComponent implements OnInit, OnDestroy {
   }
 
   private initAsyncs(): void {
+
+    const source$ = this._salesDataService.getSalesData(this.category)
+      .pipe(
+        takeUntil(this._destroy$),
+        tap((data) => {
+          this.data = data;
+          this.loading = false;
+          this.loaded = true;
+        })
+      );
+
     this._apiTrigger$.pipe(
       takeUntil(this._destroy$),
       switchMap(() => {
         this.loading = true;
         this.loaded = false;
-        return this._salesDataService.getSalesData(this.category)
-          .pipe(
-            takeUntil(this._destroy$),
-            tap((data) => {
-              this.data = data;
-              this.loading = false;
-              this.loaded = true;
-            })
-          );
+        return source$;
       }),
     ).subscribe();
+
   }
 }
