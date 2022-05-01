@@ -19,7 +19,9 @@ import { Database } from './database';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    HttpClientInMemoryWebApiModule.forRoot(Database),
+    HttpClientInMemoryWebApiModule.forRoot(Database, {
+      delay: 2000
+    }),
   ],
   bootstrap: [AppComponent]
 })
