@@ -23,7 +23,6 @@ export class SalesDataWidgetComponent implements OnInit {
   }
 
   private _getData(): void {
-    this.data = null;
     this._salesDataService
       .getSalesData(this.category)
       .pipe(take(1))
