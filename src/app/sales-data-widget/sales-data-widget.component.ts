@@ -11,6 +11,8 @@ export class SalesDataWidgetComponent implements OnInit {
   @Input() category: string = '';
 
   data: any;
+  loading: boolean;
+  loaded: boolean;
 
   constructor(private readonly _salesDataService: SalesDataService) { }
 
@@ -23,10 +25,16 @@ export class SalesDataWidgetComponent implements OnInit {
   }
 
   private _getData(): void {
+    this.loading = true;
+    this.loaded = false;
     this._salesDataService
       .getSalesData(this.category)
       .pipe(take(1))
-      .subscribe((data) => this.data = data);
+      .subscribe((data) => {
+        this.data = data;
+        this.loading = false;
+        this.loaded = true;
+      });
   }
 
 }
