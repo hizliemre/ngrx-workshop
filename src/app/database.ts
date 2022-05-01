@@ -6,9 +6,9 @@ export class Database implements InMemoryDbService {
   constructor() { }
   createDb() {
     return {
-      salesData: [
+      'sales-data': [
         {
-          id: "electronic",
+          id: 'electronic',
           name: 'Elektronik',
           bestSellers: [
             {
@@ -38,7 +38,7 @@ export class Database implements InMemoryDbService {
           ]
         },
         {
-          id: "book",
+          id: 'book',
           name: 'Kitap',
           bestSellers: [
             {
