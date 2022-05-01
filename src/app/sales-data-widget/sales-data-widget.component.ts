@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { map, Subject, switchAll, takeUntil, tap } from 'rxjs';
+import { Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { SalesDataService } from '../api/sales-data.service';
 
 @Component({
@@ -45,14 +45,12 @@ export class SalesDataWidgetComponent implements OnInit, OnDestroy {
       );
 
     this._apiTrigger$.pipe(
-      map(() => {
+      switchMap(() => {
         this.loading = true;
         this.loaded = false;
         return source$;
       }),
-      switchAll(),
-      takeUntil(this._destroy$)
+      takeUntil(this._destroy$),
     ).subscribe();
-
   }
 }
