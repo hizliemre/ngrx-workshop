@@ -8,6 +8,7 @@ import { SalesDataService } from '../api/sales-data.service';
 export class Dashboard1Component implements OnInit {
 
   electronicSalesData$ = this._salesDataService.getSalesData('electronic');
+  bookSalesData$ = this._salesDataService.getSalesData('book');
 
   constructor(private readonly _salesDataService: SalesDataService) { }
 
