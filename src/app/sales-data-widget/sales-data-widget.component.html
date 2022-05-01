@@ -1,0 +1,79 @@
+<div *ngIf="data"
+     class="flex flex-col w-[512px] p-4 border rounded-md bg-slate-100 shadow-md">
+  <h4 class="mb-4">{{ data.name }}</h4>
+  <div class="flex flex-col gap-2">
+
+    <ng-container *ngFor="let item of data.bestSellers; let first = first; let index = index">
+
+      <div *ngIf="first"
+           class="flex flex-col gap-2 mb-4">
+        <div class="flex flex-row gap-2 text-xl">
+          <span>#{{index + 1}}</span>
+          <span>{{ item.name }}</span>
+        </div>
+        <div class="flex flex-row gap-2">
+          <span class="">Price : </span>
+          <span>{{ item.unitPrice | number:'1.0-2' }} $</span>
+        </div>
+        <div class="flex flex-row gap-2">
+          <span class="">Total : </span>
+          <span> {{ item.total | number:'1.0-2' }} $</span>
+        </div>
+      </div>
+      <div *ngIf="!first && index === 1"
+           class="flex flex-row w-full gap-2">
+        <span class="basis-6">&nbsp;</span>
+        <span class="flex-1 truncate">&nbsp;</span>
+        <span class="w-24 whitespace-nowrap text-right text-sm">Price</span>
+        <span class="w-24 whitespace-nowrap text-right text-sm">Total</span>
+      </div>
+      <div *ngIf="!first"
+           class="flex flex-row w-full gap-2">
+        <span class="basis-6">#{{index + 1}}</span>
+        <span class="flex-1 truncate">{{item.name}}</span>
+        <span class="w-24 whitespace-nowrap text-right">{{ item.unitPrice | number:'1.0-2' }} $</span>
+        <span class="w-24 whitespace-nowrap text-right"> {{ item.total | number:'1.0-2' }} $</span>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<div *ngIf="!data"
+     class="flex flex-col w-[512px] p-4 border rounded-md bg-slate-100 shadow-md">
+  <h4 class="mb-4 w-24 bg-gray-300 animate-pulse rounded-md">&nbsp;</h4>
+  <div class="flex flex-col gap-2">
+
+    <ng-container *ngFor="let item of [0,1,2,3]; let first = first; let index = index">
+
+      <div *ngIf="first"
+           class="flex flex-col gap-2 mb-4">
+        <div class="flex flex-row gap-2 text-xl">
+          <span>#{{index + 1}}</span>
+          <span class="w-24 bg-gray-300 animate-pulse rounded-md"></span>
+        </div>
+        <div class="flex flex-row gap-2">
+          <span class="">Price : </span>
+          <span class="w-24 bg-gray-300 animate-pulse rounded-md"></span>
+        </div>
+        <div class="flex flex-row gap-2">
+          <span class="">Total : </span>
+          <span class="w-24 bg-gray-300 animate-pulse rounded-md"></span>
+        </div>
+      </div>
+      <div *ngIf="!first && index === 1"
+           class="flex flex-row w-full gap-2">
+        <span class="basis-6">&nbsp;</span>
+        <span class="flex-1 truncate">&nbsp;</span>
+        <span class="w-24 whitespace-nowrap text-right text-sm">Price</span>
+        <span class="w-24 whitespace-nowrap text-right text-sm">Total</span>
+      </div>
+      <div *ngIf="!first"
+           class="flex flex-row w-full gap-2">
+        <span class="basis-6">#{{index + 1}}</span>
+        <span class="flex-1 bg-gray-300 animate-pulse rounded-md"></span>
+        <span class="w-24 bg-gray-300 animate-pulse rounded-md"></span>
+        <span class="w-24 bg-gray-300 animate-pulse rounded-md">&nbsp;</span>
+      </div>
+    </ng-container>
+  </div>
+</div>

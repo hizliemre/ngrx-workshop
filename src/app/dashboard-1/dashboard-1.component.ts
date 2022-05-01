@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SalesDataService } from '../api/sales-data.service';
 
 @Component({
   selector: 'dashboard-1',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Dashboard1Component implements OnInit {
 
-  constructor() { }
+  electronicSalesData$ = this._salesDataService.getSalesData('electronic');
+
+  constructor(private readonly _salesDataService: SalesDataService) { }
 
   ngOnInit(): void { }
 

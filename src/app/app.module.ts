@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { Dashboard1Component } from './dashboard-1/dashboard-1.component';
 import { Dashboard2Component } from './dashboard-2/dashboard-2.component';
 import { Database } from './database';
+import { SalesDataWidgetComponent } from './sales-data-widget/sales-data-widget.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     Dashboard1Component,
-    Dashboard2Component
+    Dashboard2Component,
+    SalesDataWidgetComponent
   ],
   imports: [
     BrowserModule,
