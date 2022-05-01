@@ -6,25 +6,67 @@ export class Database implements InMemoryDbService {
   constructor() { }
   createDb() {
     return {
-      products: [
+      salesData: [
         {
-          id: 1,
-          name: 'Seaman Cap',
-          description: 'Lorem ipsum . Voluptatem excepturi magnam nostrum dolore recusandae',
-          price: '$40'
+          id: "electronic",
+          name: 'Elektronik',
+          bestSellers: [
+            {
+              name: 'iPhone',
+              count: 1561,
+              unitPrice: 999,
+              total: 1559439
+            },
+            {
+              name: 'iPad Air',
+              count: 1462,
+              unitPrice: 599,
+              total: 875738
+            },
+            {
+              name: 'MacBook Air',
+              count: 996,
+              unitPrice: 899,
+              total: 895404
+            },
+            {
+              name: 'AirPods',
+              count: 856,
+              unitPrice: 999,
+              total: 153224
+            },
+          ]
         },
         {
-          id: 2,
-          name: 'T-shirt',
-          description: 'amet consectetur adipisicing elit.Lorem ipsum dolor sit ',
-          price: '$80'
+          id: "book",
+          name: 'Kitap',
+          bestSellers: [
+            {
+              name: 'Atomic Habits',
+              count: 2563,
+              unitPrice: 11.79,
+              total: 30217.77
+            },
+            {
+              name: 'Atlas of the Heart',
+              count: 1896,
+              unitPrice: 15.33,
+              total: 29065.68
+            },
+            {
+              name: 'This Will Not Pass',
+              count: 1523,
+              unitPrice: 14.99,
+              total: 22829.77
+            },
+            {
+              name: 'Finding Me',
+              count: 1023,
+              unitPrice: 17.69,
+              total: 18096.87
+            },
+          ]
         },
-        {
-          id: 3,
-          name: 'Back Pack',
-          description: 'Voluptatem excepturi harum rerum aliquam magnam nostrum dolore recusandae',
-          price: '$30'
-        }
       ]
     };
   }
