@@ -5,7 +5,7 @@ export const getDataActions = createActionGroup({
   source: 'Sales Data Widget/API',
   events: {
     'Get Data': props<{ category: string }>(),
-    'Get Data Success': props<{ data: SalesDataWidgetData[] }>(),
+    'Get Data Success': props<{ data: SalesDataWidgetData }>(),
     'Get Data Fail': props<{ error: Error }>()
   }
 })
