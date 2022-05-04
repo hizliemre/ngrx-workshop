@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EffectSources } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
+import { Guid } from "guid-typescript";
 import { Observable } from 'rxjs';
 import { getDataActions } from './+state/actions';
 import { SalesDataWidgetEffects } from './+state/effects';
@@ -19,6 +20,8 @@ export class SalesDataWidgetComponent implements OnInit {
 
   viewModel$: Observable<SalesDataWidgetViewModel>;
 
+  private readonly _identifier = Guid.create().toString();
+
   constructor(
     private readonly _store: Store,
     private readonly _effects: SalesDataWidgetEffects,
@@ -26,14 +29,14 @@ export class SalesDataWidgetComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this._effects.init(this.category);
+    this._effects.init(this._identifier);
     this._effectSources.addEffects(this._effects);
     this.initAsyncs();
     this.refresh();
   }
 
   refresh(): void {
-    this._store.dispatch(getDataActions.getData({ identifier: this.category, category: this.category }));
+    this._store.dispatch(getDataActions.getData({ identifier: this._identifier, category: this.category }));
   }
 
   private initAsyncs(): void {
