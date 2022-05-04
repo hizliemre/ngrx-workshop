@@ -1,12 +1,14 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Self } from '@angular/core';
 import { Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { SalesDataService } from '../api/sales-data.service';
+import { DestroyService } from '../destroy/destroy.service';
 
 @Component({
   selector: 'sales-data-widget',
   templateUrl: './sales-data-widget.component.html',
+  providers: [DestroyService]
 })
-export class SalesDataWidgetComponent implements OnInit, OnDestroy {
+export class SalesDataWidgetComponent implements OnInit {
 
   @Input() category: string = '';
 
@@ -14,10 +16,12 @@ export class SalesDataWidgetComponent implements OnInit, OnDestroy {
   loading: boolean;
   loaded: boolean;
 
-  private _destroy$ = new Subject<void>();
   private _apiTrigger$ = new Subject<void>();
 
-  constructor(private readonly _salesDataService: SalesDataService) { }
+  constructor(
+    @Self() private readonly _destroy$: DestroyService,
+    private readonly _salesDataService: SalesDataService,
+  ) { }
 
   ngOnInit(): void {
     this.initAsyncs();
@@ -26,11 +30,6 @@ export class SalesDataWidgetComponent implements OnInit, OnDestroy {
 
   refresh(): void {
     this._apiTrigger$.next();
-  }
-
-  ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
   }
 
   private initAsyncs(): void {
