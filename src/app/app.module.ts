@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Dashboard1Component } from './dashboard-1/dashboard-1.component';
@@ -20,6 +22,8 @@ import { SalesDataWidgetModule } from './sales-data-widget/sales-data-widget.mod
     CommonModule,
     HttpClientModule,
     SalesDataWidgetModule,
+    StoreModule.forRoot({}),
+    StoreDevtoolsModule.instrument({ name: 'ngrx-workshop' })
   ],
   bootstrap: [AppComponent]
 })
