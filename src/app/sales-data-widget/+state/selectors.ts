@@ -5,8 +5,13 @@ import { salesDataWidgetFeature } from './reducer';
 const selectViewModel = createSelector(
   salesDataWidgetFeature.selectLoading,
   salesDataWidgetFeature.selectLoaded,
-  salesDataWidgetFeature.selectData, (loading, loaded, data) => ({ loading, loaded, data: data as SalesDataWidgetData, })
+  salesDataWidgetFeature.selectData, (loading, loaded, data) => ({
+    loading,
+    loaded,
+    data: data as SalesDataWidgetData,
+  })
 );
+
 
 export const salesDataWidgetSelectors = {
   selectViewModel
