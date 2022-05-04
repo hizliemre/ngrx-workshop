@@ -2,11 +2,15 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { getDataActions } from './+state/actions';
+import { SalesDataWidgetEffects } from './+state/effects';
 import { salesDataWidgetSelectors, SalesDataWidgetViewModel } from './+state/selectors';
 
 @Component({
   selector: 'sales-data-widget',
   templateUrl: './sales-data-widget.component.html',
+  providers: [
+    SalesDataWidgetEffects
+  ]
 })
 export class SalesDataWidgetComponent implements OnInit {
 
@@ -14,9 +18,14 @@ export class SalesDataWidgetComponent implements OnInit {
 
   viewModel$: Observable<SalesDataWidgetViewModel>;
 
-  constructor(private readonly _store: Store) { }
+  constructor(
+    private readonly _store: Store,
+    private readonly _effects: SalesDataWidgetEffects,
+  ) {
+  }
 
   ngOnInit(): void {
+    this._effects.init(this.category);
     this.initAsyncs();
     this.refresh();
   }

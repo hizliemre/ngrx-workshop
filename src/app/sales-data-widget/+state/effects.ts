@@ -1,16 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType, OnIdentifyEffects } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { SalesDataService } from 'src/app/api/sales-data.service';
 import { getDataActions } from './actions';
 
 @Injectable()
-export class SalesDataWidgetEffects {
+export class SalesDataWidgetEffects implements OnIdentifyEffects {
+
+  private _identifier: string;
 
   constructor(
     private readonly _actions$: Actions,
     private readonly _salesDataService: SalesDataService,
   ) { }
+
+  init = (identifier: string) => this._identifier = identifier;
 
   $getData = createEffect(() => {
     return this._actions$.pipe(
@@ -23,5 +27,9 @@ export class SalesDataWidgetEffects {
       )
     );
   });
+
+  ngrxOnIdentifyEffects(): string {
+    return this._identifier;
+  }
 
 }
