@@ -1,16 +1,15 @@
-<div *ngIf="loaded$ | async"
-     class="flex flex-col w-[512px] p-4 border rounded-md bg-slate-100 shadow-md">
-
-  <ng-container *ngIf="data$ | async as data">
+<ng-container *ngIf="viewModel$ | async as viewModel">
+  <div *ngIf="viewModel.loaded"
+       class="flex flex-col w-[512px] p-4 border rounded-md bg-slate-100 shadow-md">
 
     <div class="flex flex-row items-center justify-between mb-4">
-      <h4>{{ data.name }}</h4>
+      <h4>{{ viewModel.data.name }}</h4>
       <button class="p-1 text-sm border rounded-md bg-slate-300 hover:bg-slate-400"
               (click)="refresh()">Refresh</button>
     </div>
     <div class="flex flex-col gap-2">
 
-      <ng-container *ngFor="let item of data.bestSellers; let first = first; let index = index">
+      <ng-container *ngFor="let item of viewModel.data.bestSellers; let first = first; let index = index">
 
         <div *ngIf="first"
              class="flex flex-col gap-2 mb-4">
@@ -44,46 +43,46 @@
       </ng-container>
     </div>
 
-  </ng-container>
-
-</div>
-
-<div *ngIf="loading$ | async"
-     class="flex flex-col w-[512px] p-4 border rounded-md bg-slate-100 shadow-md">
-  <h4 class="w-24 mb-4 bg-gray-300 rounded-md animate-pulse">&nbsp;</h4>
-  <div class="flex flex-col gap-2">
-
-    <ng-container *ngFor="let item of [0,1,2,3]; let first = first; let index = index">
-
-      <div *ngIf="first"
-           class="flex flex-col gap-2 mb-4">
-        <div class="flex flex-row gap-2 text-xl">
-          <span>#{{index + 1}}</span>
-          <span class="w-24 bg-gray-300 rounded-md animate-pulse"></span>
-        </div>
-        <div class="flex flex-row gap-2">
-          <span class="">Price : </span>
-          <span class="w-24 bg-gray-300 rounded-md animate-pulse"></span>
-        </div>
-        <div class="flex flex-row gap-2">
-          <span class="">Total : </span>
-          <span class="w-24 bg-gray-300 rounded-md animate-pulse"></span>
-        </div>
-      </div>
-      <div *ngIf="!first && index === 1"
-           class="flex flex-row w-full gap-2">
-        <span class="basis-6">&nbsp;</span>
-        <span class="flex-1 truncate">&nbsp;</span>
-        <span class="w-24 text-sm text-right whitespace-nowrap">Price</span>
-        <span class="w-24 text-sm text-right whitespace-nowrap">Total</span>
-      </div>
-      <div *ngIf="!first"
-           class="flex flex-row w-full gap-2">
-        <span class="basis-6">#{{index + 1}}</span>
-        <span class="flex-1 bg-gray-300 rounded-md animate-pulse"></span>
-        <span class="w-24 bg-gray-300 rounded-md animate-pulse"></span>
-        <span class="w-24 bg-gray-300 rounded-md animate-pulse">&nbsp;</span>
-      </div>
-    </ng-container>
   </div>
-</div>
+
+  <div *ngIf="viewModel.loading"
+       class="flex flex-col w-[512px] p-4 border rounded-md bg-slate-100 shadow-md">
+    <h4 class="w-24 mb-4 bg-gray-300 rounded-md animate-pulse">&nbsp;</h4>
+    <div class="flex flex-col gap-2">
+
+      <ng-container *ngFor="let item of [0,1,2,3]; let first = first; let index = index">
+
+        <div *ngIf="first"
+             class="flex flex-col gap-2 mb-4">
+          <div class="flex flex-row gap-2 text-xl">
+            <span>#{{index + 1}}</span>
+            <span class="w-24 bg-gray-300 rounded-md animate-pulse"></span>
+          </div>
+          <div class="flex flex-row gap-2">
+            <span class="">Price : </span>
+            <span class="w-24 bg-gray-300 rounded-md animate-pulse"></span>
+          </div>
+          <div class="flex flex-row gap-2">
+            <span class="">Total : </span>
+            <span class="w-24 bg-gray-300 rounded-md animate-pulse"></span>
+          </div>
+        </div>
+        <div *ngIf="!first && index === 1"
+             class="flex flex-row w-full gap-2">
+          <span class="basis-6">&nbsp;</span>
+          <span class="flex-1 truncate">&nbsp;</span>
+          <span class="w-24 text-sm text-right whitespace-nowrap">Price</span>
+          <span class="w-24 text-sm text-right whitespace-nowrap">Total</span>
+        </div>
+        <div *ngIf="!first"
+             class="flex flex-row w-full gap-2">
+          <span class="basis-6">#{{index + 1}}</span>
+          <span class="flex-1 bg-gray-300 rounded-md animate-pulse"></span>
+          <span class="w-24 bg-gray-300 rounded-md animate-pulse"></span>
+          <span class="w-24 bg-gray-300 rounded-md animate-pulse">&nbsp;</span>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+</ng-container>
