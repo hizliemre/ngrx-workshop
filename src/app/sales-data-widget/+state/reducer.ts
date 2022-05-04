@@ -6,13 +6,13 @@ export const SALES_DATA_WIDGET_FEATURE_KEY = 'salesDataWidget';
 export interface SalesDataWidgetState {
   loading: boolean;
   loaded: boolean;
-  data: SalesDataWidgetData[]
+  data: SalesDataWidgetData | null
 };
 
 const initialState: SalesDataWidgetState = {
   loading: false,
   loaded: false,
-  data: []
+  data: null
 };
 
 export const reducer = createReducer(
