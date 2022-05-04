@@ -41,7 +41,7 @@ export class SalesDataWidgetComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._reducerManager.removeReducer(this._feature.name)
+    this._reducerManager.removeReducer(this._feature.name);
   }
 
   refresh(): void {
