@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { getDataActions } from './+state/actions';
 import { SalesDataWidgetEffects } from './+state/effects';
 import { salesDataWidgetFeature } from './+state/reducer';
-import { salesDataWidgetSelectors } from './+state/selectors';
+import { salesDataWidgetSelectors, SalesDataWidgetViewModel } from './+state/selectors';
 
 @Component({
   selector: 'sales-data-widget',
@@ -19,7 +19,7 @@ export class SalesDataWidgetComponent implements OnInit {
 
   @Input() category: string = '';
 
-  viewModel$: Observable<any>;
+  viewModel$: Observable<SalesDataWidgetViewModel>;
 
   private readonly _identifier = Guid.create().toString();
 
