@@ -9,7 +9,9 @@ import { salesDataWidgetSelectors, SalesDataWidgetViewModel } from './+state/sel
 @Component({
   selector: 'sales-data-widget',
   templateUrl: './sales-data-widget.component.html',
-  providers: [SalesDataWidgetEffects]
+  providers: [
+    SalesDataWidgetEffects
+  ]
 })
 export class SalesDataWidgetComponent implements OnInit {
 
