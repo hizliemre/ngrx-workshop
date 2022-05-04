@@ -2,7 +2,7 @@ import { createFeature, createReducer, on } from '@ngrx/store';
 import { SalesDataWidgetData } from 'src/app/widget-data.model';
 import { getDataActions } from './actions';
 
-const SALES_DATA_WIDGET_FEATURE_KEY = 'salesDataWidget';
+const SALES_DATA_WIDGET_FEATURE_KEY = (identifier: string) => `salesDataWidget_${identifier}`;
 export interface SalesDataWidgetState {
   loading: boolean;
   loaded: boolean;
@@ -15,8 +15,8 @@ const initialState: SalesDataWidgetState = {
   data: null
 };
 
-export const salesDataWidgetFeature = createFeature({
-  name: SALES_DATA_WIDGET_FEATURE_KEY,
+export const salesDataWidgetFeature = (identifier: string) => createFeature({
+  name: SALES_DATA_WIDGET_FEATURE_KEY(identifier),
   reducer: createReducer(
     initialState,
     on(getDataActions.getData, (state) => ({ ...state, loading: true, loaded: false })),

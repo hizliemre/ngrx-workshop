@@ -2,10 +2,12 @@ import { createSelector } from '@ngrx/store';
 import { SalesDataWidgetData } from 'src/app/widget-data.model';
 import { salesDataWidgetFeature } from './reducer';
 
-const selectViewModel = createSelector(
-  salesDataWidgetFeature.selectLoading,
-  salesDataWidgetFeature.selectLoaded,
-  salesDataWidgetFeature.selectData, (loading, loaded, data) => ({
+const featureCreator = (identifier: string) => salesDataWidgetFeature(identifier);
+
+const selectViewModel = (identifier: string) => createSelector(
+  featureCreator(identifier).selectLoading,
+  featureCreator(identifier).selectLoaded,
+  featureCreator(identifier).selectData, (loading, loaded, data) => ({
     loading,
     loaded,
     data: data as SalesDataWidgetData,
@@ -13,14 +15,14 @@ const selectViewModel = createSelector(
 );
 
 // direkt state'in tamamını da select edebiliriz.
-const selectViewModel2 = createSelector(
-  salesDataWidgetFeature.selectSalesDataWidgetState,
-  (state) => ({
-    loading: state.loading,
-    loaded: state.loaded,
-    data: state.data as SalesDataWidgetData,
-  })
-);
+// const selectViewModel2 = (identifier: string) => createSelector(
+//   featureCreator(identifier).selectSalesDataWidgetState,
+//   (state) => ({
+//     loading: state.loading,
+//     loaded: state.loaded,
+//     data: state.data as SalesDataWidgetData,
+//   })
+// );
 
 export const salesDataWidgetSelectors = {
   selectViewModel
