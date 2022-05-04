@@ -2,6 +2,7 @@ import { Component, Input, OnInit, Self } from '@angular/core';
 import { Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { SalesDataService } from '../api/sales-data.service';
 import { DestroyService } from '../destroy/destroy.service';
+import { SalesDataWidgetData } from '../widget-data.model';
 
 @Component({
   selector: 'sales-data-widget',
@@ -12,7 +13,7 @@ export class SalesDataWidgetComponent implements OnInit {
 
   @Input() category: string = '';
 
-  data: any;
+  data: SalesDataWidgetData;
   loading: boolean;
   loaded: boolean;
 
