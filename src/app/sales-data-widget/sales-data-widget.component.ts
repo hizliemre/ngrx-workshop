@@ -23,15 +23,12 @@ export class SalesDataWidgetComponent implements OnInit {
 
   private readonly _identifier = Guid.create().toString();
 
-
-
   constructor(
     private readonly _store: Store,
     private readonly _effects: SalesDataWidgetEffects,
     private readonly _effectSources: EffectSources,
     private readonly _reducerManager: ReducerManager,
   ) { }
-
 
   ngOnInit(): void {
     const feature = salesDataWidgetFeature(this._identifier);
