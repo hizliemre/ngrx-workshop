@@ -6,20 +6,20 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { Dashboard1Component } from './dashboard-1/dashboard-1.component';
 import { Dashboard2Component } from './dashboard-2/dashboard-2.component';
-import { SalesDataWidgetComponent } from './sales-data-widget/sales-data-widget.component';
+import { SalesDataWidgetModule } from './sales-data-widget/sales-data-widget.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     Dashboard1Component,
-    Dashboard2Component,
-    SalesDataWidgetComponent
+    Dashboard2Component
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    SalesDataWidgetModule,
   ],
   bootstrap: [AppComponent]
 })
