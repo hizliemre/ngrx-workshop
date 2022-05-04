@@ -17,7 +17,7 @@ const initialState: SalesDataWidgetState = {
 
 export const reducer = createReducer(
   initialState,
-  on(getDataActions.getData, (state) => ({ ...state, loading: true })),
-  on(getDataActions.getDataSuccess, (state, { data }) => ({ ...state, data, loading: false })),
-  on(getDataActions.getDataFail, (state) => ({ ...state, loading: false })),
+  on(getDataActions.getData, (state) => ({ ...state, loading: true, loaded: false })),
+  on(getDataActions.getDataSuccess, (state, { data }) => ({ ...state, data, loading: false, loaded: true })),
+  on(getDataActions.getDataFail, (state) => ({ ...state, loading: false, loaded: false })),
 )
