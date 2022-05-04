@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { EffectSources } from '@ngrx/effects';
 import { ActionReducer, ReducerManager, Store, UPDATE } from '@ngrx/store';
 import { Feature } from '@ngrx/store/src/feature_creator';
-import { Guid } from "guid-typescript";
+import { Guid } from 'guid-typescript';
 import { Observable } from 'rxjs';
 import { getDataActions } from './+state/actions';
 import { SalesDataWidgetEffects } from './+state/effects';
