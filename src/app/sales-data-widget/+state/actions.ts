@@ -1,6 +1,13 @@
 import { createActionGroup, props } from '@ngrx/store';
 import { SalesDataWidgetData } from 'src/app/widget-data.model';
 
+export const stateActions = createActionGroup({
+  source: 'Sales Data Widget/API',
+  events: {
+    'Destroy': props<{ identifier: string }>()
+  }
+})
+
 export const getDataActions = createActionGroup({
   source: 'Sales Data Widget/API',
   events: {
