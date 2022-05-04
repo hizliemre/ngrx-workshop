@@ -28,4 +28,4 @@ export const salesDataWidgetSelectors = {
   selectViewModel
 }
 
-export type SalesDataWidgetViewModel = ReturnType<typeof selectViewModel>;
+export type SalesDataWidgetViewModel = ReturnType<ReturnType<typeof selectViewModel>>;
