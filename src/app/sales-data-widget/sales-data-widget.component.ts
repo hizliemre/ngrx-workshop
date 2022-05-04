@@ -9,9 +9,7 @@ import { salesDataWidgetSelectors, SalesDataWidgetViewModel } from './+state/sel
 @Component({
   selector: 'sales-data-widget',
   templateUrl: './sales-data-widget.component.html',
-  providers: [
-    SalesDataWidgetEffects
-  ]
+  providers: [SalesDataWidgetEffects]
 })
 export class SalesDataWidgetComponent implements OnInit {
 
@@ -33,7 +31,7 @@ export class SalesDataWidgetComponent implements OnInit {
   }
 
   refresh(): void {
-    this._store.dispatch(getDataActions.getData({ category: this.category }));
+    this._store.dispatch(getDataActions.getData({ identifier: this.category, category: this.category }));
   }
 
   private initAsyncs(): void {
