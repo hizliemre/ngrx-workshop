@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { EffectSources } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { getDataActions } from './+state/actions';
@@ -21,11 +22,12 @@ export class SalesDataWidgetComponent implements OnInit {
   constructor(
     private readonly _store: Store,
     private readonly _effects: SalesDataWidgetEffects,
-  ) {
-  }
+    private readonly _effectSources: EffectSources
+  ) { }
 
   ngOnInit(): void {
     this._effects.init(this.category);
+    this._effectSources.addEffects(this._effects);
     this.initAsyncs();
     this.refresh();
   }
