@@ -4,14 +4,12 @@ import { getDataActions } from './actions';
 
 const SALES_DATA_WIDGET_FEATURE_KEY = 'salesDataWidget';
 export interface SalesDataWidgetState {
-  initialized: boolean;
   loading: boolean;
   loaded: boolean;
   data: SalesDataWidgetData | null
 };
 
 const initialState: SalesDataWidgetState = {
-  initialized: false,
   loading: false,
   loaded: false,
   data: null
