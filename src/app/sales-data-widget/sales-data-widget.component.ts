@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Guid } from "guid-typescript";
 import { Observable } from 'rxjs';
 import { getDataActions } from './+state/actions';
 import { SalesDataWidgetEffects } from './+state/effects';
@@ -18,14 +19,15 @@ export class SalesDataWidgetComponent implements OnInit {
 
   viewModel$: Observable<SalesDataWidgetViewModel>;
 
+  private readonly _identifier = Guid.create().toString();
+
   constructor(
     private readonly _store: Store,
     private readonly _effects: SalesDataWidgetEffects,
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
-    this._effects.init(this.category);
+    this._effects.init(this._identifier);
     this.initAsyncs();
     this.refresh();
   }
