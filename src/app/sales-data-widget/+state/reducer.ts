@@ -24,3 +24,5 @@ export const salesDataWidgetFeature = createFeature({
     on(getDataActions.getDataFail, (state) => ({ ...state, loading: false, loaded: false })),
   )
 })
+
+// @ngrx/component-store kullanılabilir!!!
