@@ -1,7 +1,8 @@
 import { Inject, InjectFlags, Injector } from '@angular/core';
-import { EffectSources } from '@ngrx/effects';
+import { Actions, EffectNotification, EffectSources, ofType, OnIdentifyEffects, OnRunEffects } from '@ngrx/effects';
 import { Action, ActionCreatorProps, ReducerManager, UPDATE } from '@ngrx/store';
-import { ActionReducer, NotAllowedInPropsCheck } from '@ngrx/store/src/models';
+import { ActionCreator, ActionReducer, FunctionWithParametersType, NotAllowedInPropsCheck } from '@ngrx/store/src/models';
+import { filter, Observable, pipe, takeUntil, UnaryFunction } from 'rxjs';
 
 export function emptyIdentifedProps(): ActionCreatorProps<{ identifier: string }> {
   return identifedProps();
@@ -60,4 +61,37 @@ export abstract class ComponentState<T>  {
     this._reducerManager.removeReducer(this.featureKey);
   }
 
+}
+
+export type IdentifiedAction = Action & { identifier: string };
+
+export abstract class IdentifiedEffects implements OnIdentifyEffects, OnRunEffects {
+
+  protected identifier: string;
+  private _destroyAction: ActionCreator<string, FunctionWithParametersType<IdentifiedAction[], IdentifiedAction>>;
+
+  constructor(public actions$: Actions) { }
+
+  protected localOfType<T extends IdentifiedAction>(action: ActionCreator<string, FunctionWithParametersType<T[], T>>): UnaryFunction<Observable<Action>, Observable<T>> {
+    return pipe(
+      ofType(action),
+      filter((action) => action.identifier === this.identifier)
+    );
+  }
+
+  protected init(identifier: string, destroyAction: ActionCreator<string, FunctionWithParametersType<IdentifiedAction[], IdentifiedAction>>): void {
+    this.identifier = identifier;
+    this._destroyAction = destroyAction;
+
+  }
+
+  ngrxOnIdentifyEffects(): string {
+    return this.identifier;
+  }
+
+  ngrxOnRunEffects(resolvedEffects$: Observable<EffectNotification>): Observable<EffectNotification> {
+    return resolvedEffects$.pipe(
+      takeUntil(this.actions$.pipe(this.localOfType(this._destroyAction))),
+    );
+  }
 }
