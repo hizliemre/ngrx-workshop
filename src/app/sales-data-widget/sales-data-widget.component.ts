@@ -1,12 +1,12 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { EffectSources } from '@ngrx/effects';
-import { ActionReducer, ReducerManager, Store, UPDATE } from '@ngrx/store';
-import { Feature } from '@ngrx/store/src/feature_creator';
+import { ReducerManager, Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
 import { Observable } from 'rxjs';
+import { filterReducer } from '../ngrx-infra';
 import { getDataActions } from './+state/actions';
 import { SalesDataWidgetEffects } from './+state/effects';
-import { salesDataWidgetFeature, SalesDataWidgetState } from './+state/reducer';
+import { reducer, SALES_DATA_WIDGET_FEATURE_KEY } from './+state/reducer';
 import { salesDataWidgetSelectors, SalesDataWidgetViewModel } from './+state/selectors';
 
 @Component({
@@ -22,18 +22,18 @@ export class SalesDataWidgetComponent implements OnInit, OnDestroy {
 
   viewModel$: Observable<SalesDataWidgetViewModel>;
 
+
   private readonly _identifier = Guid.create().toString();
-  private _feature: Feature<Record<string, any>, string, SalesDataWidgetState>;
+
   constructor(
     private readonly _store: Store,
     private readonly _effects: SalesDataWidgetEffects,
     private readonly _effectSources: EffectSources,
-    private readonly _reducerManager: ReducerManager,
+    private readonly _reducerManager: ReducerManager
   ) { }
 
   ngOnInit(): void {
-    this._feature = salesDataWidgetFeature(this._identifier);
-    this._reducerManager.addReducer(this._feature.name, this.filterReducer(this._identifier, this._feature.reducer));
+    this._reducerManager.addReducer(SALES_DATA_WIDGET_FEATURE_KEY(this._identifier), filterReducer(this._identifier, reducer));
     this._effects.init(this._identifier);
     this._effectSources.addEffects(this._effects);
     this.initAsyncs();
@@ -41,17 +41,11 @@ export class SalesDataWidgetComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._reducerManager.removeReducer(this._feature.name);
+    this._reducerManager.removeReducer(SALES_DATA_WIDGET_FEATURE_KEY(this._identifier));
   }
 
   refresh(): void {
     this._store.dispatch(getDataActions.getData({ identifier: this._identifier, category: this.category }));
-  }
-
-  filterReducer = <T>(identifier: string, reducer: ActionReducer<T>) => (state: T, action: any) => {
-    if (action.type === UPDATE) return reducer(state, action);
-    if (action.identifier && action.identifier === identifier) return reducer(state, action);
-    return state;
   }
 
   private initAsyncs(): void {
