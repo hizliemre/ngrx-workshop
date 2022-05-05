@@ -1,10 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
-import { featureKeyMap } from 'src/app/ngrx-infra';
 import { SalesDataWidgetData } from 'src/app/widget-data.model';
 import { getDataActions } from './actions';
 
-const featureKey = 'salesDataWidget'
-export const SALES_DATA_WIDGET_FEATURE_KEY = (identifier: string) => featureKeyMap(identifier, featureKey);
+export const SALES_DATA_WIDGET_FEATURE_KEY = 'salesDataWidget'
 export interface SalesDataWidgetState {
   loading: boolean;
   loaded: boolean;

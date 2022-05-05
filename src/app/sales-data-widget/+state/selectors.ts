@@ -1,9 +1,10 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { SalesDataWidgetData } from 'src/app/widget-data.model';
-import { SalesDataWidgetState, SALES_DATA_WIDGET_FEATURE_KEY } from './reducer';
+import { SalesDataWidgetState } from './reducer';
 
-const selectFeatureState = (identifier: string) => createFeatureSelector<SalesDataWidgetState>(SALES_DATA_WIDGET_FEATURE_KEY(identifier))
-const selectViewModel = (identifier: string) => createSelector(selectFeatureState(identifier), (state) => ({
+const selectFeatureState = (featureKey: string) => createFeatureSelector<SalesDataWidgetState>(featureKey);
+
+const selectViewModel = (featureKey: string) => createSelector(selectFeatureState(featureKey), (state) => ({
   loading: state.loading,
   loaded: state.loaded,
   data: state.data as SalesDataWidgetData,
