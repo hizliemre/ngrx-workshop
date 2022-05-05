@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, filter, map, of, switchMap } from 'rxjs';
 import { SalesDataService } from 'src/app/api/sales-data.service';
 import { IdentifiedEffects } from 'src/app/ngrx-infra';
-import { getDataActions, stateActions } from './actions';
+import { getDataActions } from './actions';
 
 @Injectable()
 export class SalesDataWidgetEffects extends IdentifiedEffects {
@@ -12,10 +12,6 @@ export class SalesDataWidgetEffects extends IdentifiedEffects {
     private readonly _actions$: Actions,
     private readonly _salesDataService: SalesDataService,
   ) { super(_actions$) }
-
-  override init(identifier: string) {
-    super.init(identifier, stateActions.destroy)
-  };
 
   $getData = createEffect(() => {
     return this._actions$.pipe(

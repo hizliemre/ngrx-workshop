@@ -20,19 +20,6 @@ export const filterReducer = <T>(identifier: string, reducer: ActionReducer<T>) 
 
 export const featureKeyMap = (identifier: string, featureKey: string) => `${featureKey}_${identifier}`;
 
-
-export abstract class ComponentEffects {
-  abstract init(identifier: string): void;
-}
-
-
-export function Test() {
-  return function decorator(target: object) {
-    console.log(target);
-  }
-}
-
-@Test()
 export abstract class ComponentState<T>  {
 
   protected featureKey: string;
@@ -43,15 +30,15 @@ export abstract class ComponentState<T>  {
     this._reducerManager = this._injector.get(ReducerManager);
   }
 
-  init(identifier: string, featureKey: string, reducer: ActionReducer<T, Action>) {
+  init(identifier: string, featureKey: string, reducer: ActionReducer<T, Action>, destroyAction: ActionCreator<string, FunctionWithParametersType<IdentifiedAction[], IdentifiedAction>>) {
 
     this.identifier = identifier;
     this.featureKey = featureKeyMap(identifier, featureKey);
     this._reducerManager.addReducer(this.featureKey, filterReducer(identifier, reducer));
 
-    const effects = this._injector.get(ComponentEffects, null, InjectFlags.Self);
+    const effects = this._injector.get(IdentifiedEffects, null, InjectFlags.Self);
     if (effects !== null) {
-      effects.init(identifier);
+      effects.init(identifier, destroyAction);
       const effectSources = this._injector.get(EffectSources);
       effectSources.addEffects(effects);
     }
@@ -79,10 +66,9 @@ export abstract class IdentifiedEffects implements OnIdentifyEffects, OnRunEffec
     );
   }
 
-  protected init(identifier: string, destroyAction: ActionCreator<string, FunctionWithParametersType<IdentifiedAction[], IdentifiedAction>>): void {
+  init(identifier: string, destroyAction: ActionCreator<string, FunctionWithParametersType<IdentifiedAction[], IdentifiedAction>>): void {
     this.identifier = identifier;
     this._destroyAction = destroyAction;
-
   }
 
   ngrxOnIdentifyEffects(): string {

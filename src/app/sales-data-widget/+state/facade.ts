@@ -17,9 +17,8 @@ export class SalesDataWidgetComponentState extends ComponentState<SalesDataWidge
   ) { super(injector) }
 
   override init(identifier: string): void {
-    super.init(identifier, SALES_DATA_WIDGET_FEATURE_KEY, reducer);
+    super.init(identifier, SALES_DATA_WIDGET_FEATURE_KEY, reducer, stateActions.destroy);
     this.viewModel$ = this._store.select(salesDataWidgetSelectors.selectViewModel(this.featureKey));
-
   }
 
   refresh(category: string): void {
