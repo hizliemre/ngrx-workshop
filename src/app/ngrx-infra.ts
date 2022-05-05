@@ -1,6 +1,6 @@
 import { Inject, InjectFlags, Injector } from '@angular/core';
 import { Actions, EffectNotification, EffectSources, ofType, OnIdentifyEffects, OnRunEffects } from '@ngrx/effects';
-import { Action, ActionCreatorProps, ReducerManager, UPDATE } from '@ngrx/store';
+import { Action, ActionCreatorProps, ReducerManager, Store, UPDATE } from '@ngrx/store';
 import { ActionCreator, ActionReducer, FunctionWithParametersType, NotAllowedInPropsCheck } from '@ngrx/store/src/models';
 import { filter, Observable, pipe, takeUntil, UnaryFunction } from 'rxjs';
 
@@ -54,6 +54,8 @@ export abstract class ComponentState<T>  {
   abstract setSelectors(): void;
 
   destroy(): void {
+    const store = this._injector.get(Store);
+    store.dispatch({ type: this.destroyAction.type, identifier: this.identifier });
     this._reducerManager.removeReducer(this.featureKey);
   }
 

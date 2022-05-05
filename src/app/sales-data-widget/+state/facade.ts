@@ -29,7 +29,6 @@ export class SalesDataWidgetComponentState extends ComponentState<SalesDataWidge
   }
 
   ngOnDestroy(): void {
-    this._store.dispatch(stateActions.destroy({ identifier: this.identifier }));
     this.destroy();
   }
 
