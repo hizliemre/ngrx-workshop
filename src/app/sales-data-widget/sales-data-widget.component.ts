@@ -22,7 +22,6 @@ export class SalesDataWidgetComponent implements OnInit, OnDestroy {
 
   viewModel$: Observable<SalesDataWidgetViewModel>;
 
-
   private readonly _identifier = Guid.create().toString();
 
   constructor(
