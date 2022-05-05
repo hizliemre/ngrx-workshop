@@ -22,6 +22,10 @@ export const featureKeyMap = (identifier: string, featureKey: string) => `${feat
 
 export abstract class ComponentState<T>  {
 
+  abstract featureName: string;
+  abstract reducer: ActionReducer<T, Action>;
+  abstract destroyAction: ActionCreator<string, FunctionWithParametersType<IdentifiedAction[], IdentifiedAction>>;
+
   protected featureKey: string;
   protected identifier: string;
   private _reducerManager: ReducerManager;
@@ -30,19 +34,24 @@ export abstract class ComponentState<T>  {
     this._reducerManager = this._injector.get(ReducerManager);
   }
 
-  init(identifier: string, featureKey: string, reducer: ActionReducer<T, Action>, destroyAction: ActionCreator<string, FunctionWithParametersType<IdentifiedAction[], IdentifiedAction>>) {
+  init(identifier: string) {
 
     this.identifier = identifier;
-    this.featureKey = featureKeyMap(identifier, featureKey);
-    this._reducerManager.addReducer(this.featureKey, filterReducer(identifier, reducer));
+    this.featureKey = featureKeyMap(identifier, this.featureName);
+    this._reducerManager.addReducer(this.featureKey, filterReducer(identifier, this.reducer));
 
     const effects = this._injector.get(IdentifiedEffects, null, InjectFlags.Self);
     if (effects !== null) {
-      effects.init(identifier, destroyAction);
+      effects.init(identifier, this.destroyAction);
       const effectSources = this._injector.get(EffectSources);
       effectSources.addEffects(effects);
     }
+
+    this.setSelectors();
+
   };
+
+  abstract setSelectors(): void;
 
   destroy(): void {
     this._reducerManager.removeReducer(this.featureKey);

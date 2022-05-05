@@ -9,6 +9,10 @@ import { salesDataWidgetSelectors, SalesDataWidgetViewModel } from './selectors'
 @Injectable()
 export class SalesDataWidgetComponentState extends ComponentState<SalesDataWidgetState> implements OnDestroy {
 
+  featureName = SALES_DATA_WIDGET_FEATURE_KEY;
+  reducer = reducer;
+  destroyAction = stateActions.destroy;
+
   viewModel$: Observable<SalesDataWidgetViewModel>;
 
   constructor(
@@ -16,8 +20,7 @@ export class SalesDataWidgetComponentState extends ComponentState<SalesDataWidge
     private _store: Store
   ) { super(injector) }
 
-  override init(identifier: string): void {
-    super.init(identifier, SALES_DATA_WIDGET_FEATURE_KEY, reducer, stateActions.destroy);
+  setSelectors(): void {
     this.viewModel$ = this._store.select(salesDataWidgetSelectors.selectViewModel(this.featureKey));
   }
 
