@@ -12,13 +12,15 @@ export function identifedProps<P extends SafeProps, SafeProps = NotAllowedInProp
   return { _as: 'props', _p: undefined! };
 }
 
-export const filterReducer = <T>(identifier: string, reducer: ActionReducer<T>) => (state: T, action: any) => {
+type IdentifiedAction = Action & { identifier: string };
+
+const filterReducer = <T>(identifier: string, reducer: ActionReducer<T>) => (state: T, action: IdentifiedAction) => {
   if (action.type === UPDATE) return reducer(state, action);
   if (action.identifier && action.identifier === identifier) return reducer(state, action);
   return state;
 }
 
-export const featureKeyMap = (identifier: string, featureKey: string) => `${featureKey}_${identifier}`;
+const featureKeyMap = (identifier: string, featureKey: string) => `${featureKey}_${identifier}`;
 
 export abstract class ComponentState<T>  {
 
@@ -61,7 +63,6 @@ export abstract class ComponentState<T>  {
 
 }
 
-export type IdentifiedAction = Action & { identifier: string };
 
 export abstract class IdentifiedEffects implements OnIdentifyEffects, OnRunEffects {
 
