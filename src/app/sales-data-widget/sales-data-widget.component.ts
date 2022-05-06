@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Guid } from 'guid-typescript';
-import { IdentifiedEffects } from '../ngrx-infra';
+import { provideIdentifiedState } from '../ngrx-infra';
 import { SalesDataWidgetEffects } from './+state/effects';
 import { SalesDataWidgetComponentState } from './+state/facade';
 
@@ -8,11 +8,7 @@ import { SalesDataWidgetComponentState } from './+state/facade';
   selector: 'sales-data-widget',
   templateUrl: './sales-data-widget.component.html',
   providers: [
-    SalesDataWidgetComponentState,
-    {
-      provide: IdentifiedEffects,
-      useClass: SalesDataWidgetEffects
-    }
+    provideIdentifiedState(SalesDataWidgetComponentState, SalesDataWidgetEffects)
   ]
 })
 export class SalesDataWidgetComponent implements OnInit {

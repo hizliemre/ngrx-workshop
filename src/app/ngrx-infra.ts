@@ -1,4 +1,4 @@
-import { Inject, InjectFlags, Injector } from '@angular/core';
+import { Inject, InjectFlags, Injector, Provider, Type } from '@angular/core';
 import { Actions, EffectNotification, EffectSources, ofType, OnIdentifyEffects, OnRunEffects } from '@ngrx/effects';
 import { Action, ActionCreatorProps, ReducerManager, Store, UPDATE } from '@ngrx/store';
 import { ActionCreator, ActionReducer, FunctionWithParametersType, NotAllowedInPropsCheck } from '@ngrx/store/src/models';
@@ -93,4 +93,12 @@ export abstract class IdentifiedEffects implements OnIdentifyEffects, OnRunEffec
       takeUntil(this.actions$.pipe(this.localOfType(this._destroyAction))),
     );
   }
+}
+
+export function provideIdentifiedState<State extends ComponentState<any>, Effect extends IdentifiedEffects>(stateType: Type<State>, effectType?: Type<Effect>): Provider[] {
+  const providers: Provider[] = [
+    stateType,
+  ];
+  if (effectType) providers.push(effectType);
+  return providers;
 }
