@@ -99,6 +99,6 @@ export function provideIdentifiedState<State extends ComponentState<any>, Effect
   const providers: Provider[] = [
     stateType,
   ];
-  if (effectType) providers.push(effectType);
+  if (effectType) providers.push({ provide: IdentifiedEffects, useClass: effectType });
   return providers;
 }
