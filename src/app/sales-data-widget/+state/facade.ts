@@ -24,7 +24,7 @@ export class SalesDataWidgetComponentState extends ComponentState<SalesDataWidge
     this.store.dispatch(getDataActions.getData({ identifier: this.identifier, category }));
   }
 
-  // bunu yazmaya zorlamıyor! unutulursa effect'ler ve reducer memory-leak yaratır.
+  // bunu yazmaya zorlayamıyoruz! (linter ile mümkün) unutulursa effect'ler ve reducer memory-leak yaratır.
   ngOnDestroy(): void {
     this.destroy();
   }
