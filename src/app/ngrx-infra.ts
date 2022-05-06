@@ -63,7 +63,6 @@ export abstract class ComponentState<T>  {
 
 }
 
-
 export abstract class IdentifiedEffects implements OnIdentifyEffects, OnRunEffects {
 
   protected identifier: string;
