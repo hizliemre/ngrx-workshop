@@ -30,9 +30,12 @@ export abstract class ComponentState<T>  {
 
   protected featureKey: string;
   protected identifier: string;
+  protected store: Store;
+
   private _reducerManager: ReducerManager;
 
   protected constructor(@Inject(Injector) private _injector: Injector) {
+    this.store = this._injector.get(Store);
     this._reducerManager = this._injector.get(ReducerManager);
   }
 
@@ -56,8 +59,7 @@ export abstract class ComponentState<T>  {
   abstract setSelectors(): void;
 
   destroy(): void {
-    const store = this._injector.get(Store);
-    store.dispatch({ type: this.destroyAction.type, identifier: this.identifier });
+    this.store.dispatch({ type: this.destroyAction.type, identifier: this.identifier });
     this._reducerManager.removeReducer(this.featureKey);
   }
 

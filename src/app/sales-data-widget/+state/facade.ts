@@ -1,5 +1,4 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/internal/Observable';
 import { ComponentState } from 'src/app/ngrx-infra';
 import { getDataActions, stateActions } from './actions';
@@ -15,17 +14,14 @@ export class SalesDataWidgetComponentState extends ComponentState<SalesDataWidge
 
   viewModel$: Observable<SalesDataWidgetViewModel>;
 
-  constructor(
-    injector: Injector,
-    private _store: Store
-  ) { super(injector) }
+  constructor(injector: Injector) { super(injector) }
 
   setSelectors(): void {
-    this.viewModel$ = this._store.select(salesDataWidgetSelectors.selectViewModel(this.featureKey));
+    this.viewModel$ = this.store.select(salesDataWidgetSelectors.selectViewModel(this.featureKey));
   }
 
   refresh(category: string): void {
-    this._store.dispatch(getDataActions.getData({ identifier: this.identifier, category }));
+    this.store.dispatch(getDataActions.getData({ identifier: this.identifier, category }));
   }
 
   // bunu yazmaya zorlamıyor! unutulursa effect'ler ve reducer memory-leak yaratır.
