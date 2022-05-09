@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
 import { Observable } from 'rxjs';
 import { IdentifiedEffects } from '../ngrx-infra';
-import { getDataActions } from './+state/actions';
 import { SalesDataWidgetEffects } from './+state/effects';
 import { SalesDataWidgetComponentState } from './+state/facade';
 import { salesDataWidgetSelectors, SalesDataWidgetViewModel } from './+state/selectors';
@@ -39,7 +38,7 @@ export class SalesDataWidgetComponent implements OnInit {
   }
 
   refresh(): void {
-    this._store.dispatch(getDataActions.getData({ identifier: this._identifier, category: this.category }));
+    this._state.refresh(this.category);
   }
 
   private initAsyncs(): void {
