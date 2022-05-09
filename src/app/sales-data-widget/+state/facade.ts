@@ -1,5 +1,4 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { ComponentState } from 'src/app/ngrx-infra';
 import { getDataActions, stateActions } from './actions';
 import { reducer, SalesDataWidgetState, SALES_DATA_WIDGET_FEATURE_KEY } from './reducer';
@@ -11,13 +10,10 @@ export class SalesDataWidgetComponentState extends ComponentState<SalesDataWidge
   reducer = reducer;
   destroyAction = stateActions.destroy;
 
-  constructor(
-    injector: Injector,
-    private _store: Store,
-  ) { super(injector) }
+  constructor(injector: Injector) { super(injector) }
 
   refresh(category: string): void {
-    this._store.dispatch(getDataActions.getData({ identifier: this.identifier, category }));
+    this.store.dispatch(getDataActions.getData({ identifier: this.identifier, category }));
   }
 
   ngOnDestroy(): void {
