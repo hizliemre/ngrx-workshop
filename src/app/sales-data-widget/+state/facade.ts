@@ -16,14 +16,15 @@ export class SalesDataWidgetComponentState extends ComponentState<SalesDataWidge
 
   constructor(injector: Injector) { super(injector) }
 
-  refresh(category: string): void {
-    this.store.dispatch(getDataActions.getData({ identifier: this.identifier, category }));
-  }
-
   setSelectors(): void {
     this.viewModel$ = this.store.select(salesDataWidgetSelectors.selectViewModel(this.featureKey));
   }
 
+  refresh(category: string): void {
+    this.store.dispatch(getDataActions.getData({ identifier: this.identifier, category }));
+  }
+
+  // bunu yazmaya zorlayamıyoruz! (linter ile mümkün) unutulursa effect'ler ve reducer memory-leak yaratır.
   ngOnDestroy(): void {
     this.destroy();
   }

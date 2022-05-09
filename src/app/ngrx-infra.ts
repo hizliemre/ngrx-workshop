@@ -7,6 +7,7 @@ import { filter, Observable, pipe, takeUntil, UnaryFunction } from 'rxjs';
 export function emptyIdentifedProps(): ActionCreatorProps<{ identifier: string }> {
   return identifedProps();
 }
+
 export function identifedProps<P extends SafeProps, SafeProps = NotAllowedInPropsCheck<P>>(): ActionCreatorProps<P & { identifier: string }> {
   return { _as: 'props', _p: undefined! };
 }
@@ -91,7 +92,6 @@ export abstract class IdentifiedEffects implements OnIdentifyEffects, OnRunEffec
       takeUntil(this.actions$.pipe(this.localOfType(this._destroyAction))),
     );
   }
-
 }
 
 export function provideIdentifiedState<State extends ComponentState<any>, Effect extends IdentifiedEffects>(stateType: Type<State>, effectType?: Type<Effect>): Provider[] {
