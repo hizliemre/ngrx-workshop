@@ -1,4 +1,5 @@
-import { Inject, Injector } from '@angular/core';
+import { Inject, InjectFlags, Injector } from '@angular/core';
+import { EffectSources } from '@ngrx/effects';
 import { ActionCreatorProps, ReducerManager, UPDATE } from '@ngrx/store';
 import { Action, ActionReducer, NotAllowedInPropsCheck } from '@ngrx/store/src/models';
 
@@ -37,10 +38,22 @@ export abstract class ComponentState<T>  {
     this.identifier = identifier;
     this.featureKey = featureKeyMap(identifier, this.featureName);
     this._reducerManager.addReducer(this.featureKey, filterReducer(identifier, this.reducer));
+
+    const effects = this._injector.get(IdentifiedEffects, null, InjectFlags.Self);
+    if (effects !== null) {
+      effects.init(identifier);
+      const effectSources = this._injector.get(EffectSources);
+      effectSources.addEffects(effects);
+    }
+
   };
 
   destroy(): void {
     this._reducerManager.removeReducer(this.featureKey);
   }
 
+}
+
+export abstract class IdentifiedEffects {
+  abstract init(identifier: string): void
 }
