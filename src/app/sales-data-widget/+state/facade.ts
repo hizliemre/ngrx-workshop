@@ -1,5 +1,4 @@
 import { Injectable, Injector, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { ComponentState } from 'src/app/ngrx-infra';
 import { getDataActions, stateActions } from './actions';
@@ -15,13 +14,10 @@ export class SalesDataWidgetComponentState extends ComponentState<SalesDataWidge
 
   viewModel$: Observable<SalesDataWidgetViewModel>;
 
-  constructor(
-    injector: Injector,
-    private _store: Store,
-  ) { super(injector) }
+  constructor(injector: Injector) { super(injector) }
 
   refresh(category: string): void {
-    this._store.dispatch(getDataActions.getData({ identifier: this.identifier, category }));
+    this.store.dispatch(getDataActions.getData({ identifier: this.identifier, category }));
   }
 
   setSelectors(): void {
