@@ -1,48 +1,42 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { EffectSources } from '@ngrx/effects';
-import { ReducerManager, Store } from '@ngrx/store';
-import { Feature } from '@ngrx/store/src/feature_creator';
+import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
 import { Observable } from 'rxjs';
-import { filterReducer } from '../ngrx-infra';
 import { getDataActions } from './+state/actions';
 import { SalesDataWidgetEffects } from './+state/effects';
-import { salesDataWidgetFeature, SalesDataWidgetState } from './+state/reducer';
+import { SalesDataWidgetComponentState } from './+state/facade';
 import { salesDataWidgetSelectors, SalesDataWidgetViewModel } from './+state/selectors';
 
 @Component({
   selector: 'sales-data-widget',
   templateUrl: './sales-data-widget.component.html',
   providers: [
-    SalesDataWidgetEffects
+    SalesDataWidgetEffects,
+    SalesDataWidgetComponentState
   ]
 })
-export class SalesDataWidgetComponent implements OnInit, OnDestroy {
+export class SalesDataWidgetComponent implements OnInit {
 
   @Input() category: string = '';
 
   viewModel$: Observable<SalesDataWidgetViewModel>;
 
   private readonly _identifier = Guid.create().toString();
-  private _feature: Feature<Record<string, any>, string, SalesDataWidgetState>;
+
   constructor(
     private readonly _store: Store,
     private readonly _effects: SalesDataWidgetEffects,
     private readonly _effectSources: EffectSources,
-    private readonly _reducerManager: ReducerManager,
+    private readonly _state: SalesDataWidgetComponentState
   ) { }
 
   ngOnInit(): void {
-    this._feature = salesDataWidgetFeature(this._identifier);
-    this._reducerManager.addReducer(this._feature.name, filterReducer(this._identifier, this._feature.reducer));
+    this._state.init(this._identifier);
     this._effects.init(this._identifier);
     this._effectSources.addEffects(this._effects);
     this.initAsyncs();
     this.refresh();
-  }
-
-  ngOnDestroy(): void {
-    this._reducerManager.removeReducer(this._feature.name);
   }
 
   refresh(): void {

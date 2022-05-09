@@ -1,26 +1,15 @@
-import { createSelector } from '@ngrx/store';
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { featureKeyMap } from 'src/app/ngrx-infra';
 import { SalesDataWidgetData } from 'src/app/widget-data.model';
-import { salesDataWidgetFeature } from './reducer';
+import { SalesDataWidgetState, SALES_DATA_WIDGET_FEATURE_KEY } from './reducer';
 
-const selectViewModel = (identifier: string) => createSelector(
-  salesDataWidgetFeature(identifier).selectLoading,
-  salesDataWidgetFeature(identifier).selectLoaded,
-  salesDataWidgetFeature(identifier).selectData, (loading, loaded, data) => ({
-    loading,
-    loaded,
-    data: data as SalesDataWidgetData,
-  })
-);
+const selectFeatureState = (identifier: string) => createFeatureSelector<SalesDataWidgetState>(featureKeyMap(identifier, SALES_DATA_WIDGET_FEATURE_KEY));
 
-// direkt state'in tamamını da select edebiliriz.
-// const selectViewModel2 = (identifier: string) => createSelector(
-//   salesDataWidgetFeature(identifier).selectSalesDataWidgetState,
-//   (state) => ({
-//     loading: state.loading,
-//     loaded: state.loaded,
-//     data: state.data as SalesDataWidgetData,
-//   })
-// );
+const selectViewModel = (identifier: string) => createSelector(selectFeatureState(identifier), (state) => ({
+  loading: state.loading,
+  loaded: state.loaded,
+  data: state.data as SalesDataWidgetData,
+}));
 
 export const salesDataWidgetSelectors = {
   selectViewModel
