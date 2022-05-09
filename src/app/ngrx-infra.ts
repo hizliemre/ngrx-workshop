@@ -19,7 +19,7 @@ const filterReducer = <T>(identifier: string, reducer: ActionReducer<T>) => (sta
   return state;
 }
 
-export const featureKeyMap = (identifier: string, featureKey: string) => `${featureKey}_${identifier}`;
+const featureKeyMap = (identifier: string, featureKey: string) => `${featureKey}_${identifier}`;
 
 export abstract class ComponentState<T>  {
 
@@ -50,7 +50,11 @@ export abstract class ComponentState<T>  {
       effectSources.addEffects(effects);
     }
 
+    this.setSelectors();
+
   };
+
+  abstract setSelectors(): void;
 
   destroy(): void {
     this.store.dispatch({ type: this.destroyAction.type, identifier: this.identifier });

@@ -1,11 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Guid } from 'guid-typescript';
-import { Observable } from 'rxjs';
 import { IdentifiedEffects } from '../ngrx-infra';
 import { SalesDataWidgetEffects } from './+state/effects';
 import { SalesDataWidgetComponentState } from './+state/facade';
-import { salesDataWidgetSelectors, SalesDataWidgetViewModel } from './+state/selectors';
 
 @Component({
   selector: 'sales-data-widget',
@@ -22,26 +19,17 @@ export class SalesDataWidgetComponent implements OnInit {
 
   @Input() category: string = '';
 
-  viewModel$: Observable<SalesDataWidgetViewModel>;
-
   private readonly _identifier = Guid.create().toString();
 
-  constructor(
-    private readonly _store: Store,
-    private readonly _state: SalesDataWidgetComponentState
-  ) { }
+  constructor(readonly state: SalesDataWidgetComponentState) { }
 
   ngOnInit(): void {
-    this._state.init(this._identifier);
-    this.initAsyncs();
+    this.state.init(this._identifier);
     this.refresh();
   }
 
   refresh(): void {
-    this._state.refresh(this.category);
+    this.state.refresh(this.category);
   }
 
-  private initAsyncs(): void {
-    this.viewModel$ = this._store.select(salesDataWidgetSelectors.selectViewModel(this._identifier));
-  }
 }
