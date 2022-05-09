@@ -13,7 +13,6 @@ export class SalesDataWidgetEffects extends IdentifiedEffects {
     private readonly _salesDataService: SalesDataService,
   ) { super(_actions$) }
 
-
   $getData = createEffect(() => {
     return this._actions$.pipe(
       this.localOfType(getDataActions.getData),
