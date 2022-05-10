@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { take } from 'rxjs';
 import { SalesDataService } from '../api/sales-data.service';
 
 @Component({
@@ -29,7 +28,6 @@ export class SalesDataWidgetComponent implements OnInit {
     this.loaded = false;
     this._salesDataService
       .getSalesData(this.category)
-      .pipe(take(1))
       .subscribe((data) => {
         this.data = data;
         this.loading = false;
