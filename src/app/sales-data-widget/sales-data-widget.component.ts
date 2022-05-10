@@ -1,26 +1,26 @@
-import { Component, Input, OnInit, Self } from '@angular/core';
-import { Subject, switchMap, takeUntil, tap } from 'rxjs';
+import { Component, Inject, Input, OnInit, Self } from '@angular/core';
+import { OBSERVE, Observed, ObserveFn, OBSERVE_PROVIDER } from 'ng-observe';
+import { Subject, switchMap, tap } from 'rxjs';
 import { SalesDataService } from '../api/sales-data.service';
-import { DestroyService } from '../destroy/destroy.service';
 import { SalesDataWidgetData } from '../widget-data.model';
 
 @Component({
   selector: 'sales-data-widget',
   templateUrl: './sales-data-widget.component.html',
-  providers: [DestroyService]
+  providers: [OBSERVE_PROVIDER]
 })
 export class SalesDataWidgetComponent implements OnInit {
 
   @Input() category: string = '';
 
-  data: SalesDataWidgetData;
+  data: Observed<SalesDataWidgetData>;
   loading: boolean;
   loaded: boolean;
 
   private _apiTrigger$ = new Subject<void>();
 
   constructor(
-    @Self() private readonly _destroy$: DestroyService,
+    @Self() @Inject(OBSERVE) private _observe: ObserveFn,
     private readonly _salesDataService: SalesDataService,
   ) { }
 
@@ -37,20 +37,21 @@ export class SalesDataWidgetComponent implements OnInit {
 
     const source$ = this._salesDataService.getSalesData(this.category)
       .pipe(
-        tap((data) => {
-          this.data = data;
+        tap(() => {
           this.loading = false;
           this.loaded = true;
         })
       );
 
-    this._apiTrigger$.pipe(
-      switchMap(() => {
-        this.loading = true;
-        this.loaded = false;
-        return source$;
-      }),
-      takeUntil(this._destroy$),
-    ).subscribe();
+    const trigger$ = this._apiTrigger$
+      .pipe(
+        switchMap(() => {
+          this.loading = true;
+          this.loaded = false;
+          return source$
+        })
+      );
+
+    this.data = this._observe(trigger$);
   }
 }
