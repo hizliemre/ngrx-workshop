@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Self } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DestroyService } from '../destroy/destroy.service';
 import { SalesDataWidgetData } from '../widget-data.model';
 
@@ -15,9 +15,7 @@ export class SalesDataWidgetComponent implements OnInit {
   loading: boolean;
   loaded: boolean;
 
-  constructor(
-    @Self() private readonly _destroy$: DestroyService,
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.initAsyncs();
