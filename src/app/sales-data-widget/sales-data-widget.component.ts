@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { EffectSources } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { Guid } from "guid-typescript";
+import { Guid } from 'guid-typescript';
 import { Observable } from 'rxjs';
 import { getDataActions } from './+state/actions';
 import { SalesDataWidgetEffects } from './+state/effects';
